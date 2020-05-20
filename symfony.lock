@@ -3,11 +3,11 @@
         "version": "v1.2.2"
     },
     "api-platform/core": {
-        "version": "2.5",
+        "version": "2.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "2.5",
+            "version": "2.1",
             "ref": "a93061567140e386f107be75340ac2aee3f86cbf"
         },
         "files": [

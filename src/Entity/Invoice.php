@@ -10,11 +10,15 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=InvoiceRepository::class)
  * @ApiResource(
- *      collectionOperations={"get"},
+ *      collectionOperations={
+ *          "get",
+ *          "post"
+ *      },
  *      itemOperations={"get"},
  *      attributes={
  *          "pagination_enabled"=true,
@@ -24,6 +28,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *      normalizationContext={
  *          "groups"={"invoice:read"}
  *      },
+ *      denormalizationContext={"disable_type_enforcement"=true, "datetime_format"="Y-m-d"},
  *      subresourceOperations={
  *          "api_customers_invoices_get_subresource"={
  *              "normalization_context"={"groups"={"invoice:subresource:read"}}
@@ -46,18 +51,22 @@ class Invoice
     /**
      * @ORM\Column(type="float")
      * @Groups({"invoice:read", "invoice:subresource:read"})
+     * @Assert\NotBlank(message="Le montant de la facture est obligatoire")
+     * @Assert\Type(type="numeric", message="Le montant de la facture doit être un nombre")
      */
     private $amount;
 
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"invoice:read", "invoice:subresource:read"})
+     * @Assert\Type(type="\DateTimeInterface",message="La date doit être au format YYYY-MM-DD")
      */
     private $sentAt;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"invoice:read", "invoice:subresource:read"})
+     * @Assert\Choice(choices={"SENT", "PAID", "CANCELLED"}, message="Les valeurs possibles pour le status sont SENT, PAID et CANCELLED")
      */
     private $status;
 
@@ -71,6 +80,8 @@ class Invoice
     /**
      * @ORM\Column(type="integer")
      * @Groups({"invoice:read", "invoice:subresource:read"})
+     * @Assert\NotBlank(message="Le chrono ne peut pas être null")
+     * @Assert\Type(type="integer", message="Le chrono doit être un nombre")
      */
     private $chrono;
 
@@ -97,7 +108,7 @@ class Invoice
         return $this->amount;
     }
 
-    public function setAmount(float $amount): self
+    public function setAmount($amount): self
     {
         $this->amount = $amount;
 
@@ -109,7 +120,7 @@ class Invoice
         return $this->sentAt;
     }
 
-    public function setSentAt(\DateTimeInterface $sentAt): self
+    public function setSentAt(\DateTimeInterface $sentAt = null): self
     {
         $this->sentAt = $sentAt;
 
@@ -145,7 +156,7 @@ class Invoice
         return $this->chrono;
     }
 
-    public function setChrono(int $chrono): self
+    public function setChrono($chrono): self
     {
         $this->chrono = $chrono;
 

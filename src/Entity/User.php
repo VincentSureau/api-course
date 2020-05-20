@@ -8,14 +8,17 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
- *      collectionOperations={"get"},
+ *      collectionOperations={"get", "post"},
  *      itemOperations={"get"}
  * )
+ * @UniqueEntity("email", message="L'email est déjà utilisé")
  */
 class User implements UserInterface
 {
@@ -30,6 +33,8 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"customer:read", "invoice:read"})
+     * @Assert\NotBlank(message="L'email ne doit pas être vide")
+     * @Assert\Email(message="L'email doit être valide")
      */
     private $email;
 
@@ -41,18 +46,33 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customer:read", "invoice:read"})
+     * @Assert\NotBlank(message="Le prénom de l'utilisateur est obligatoire")
+     * @Assert\Length(
+     *      min=3,
+     *      minMessage="Le prénom doit faire entre 3 et 255 caractères",
+     *      max=255,
+     *      maxMessage="Le prénom doit faire entre 3 et 255 caractères"
+     * )
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customer:read", "invoice:read"})
+     * @Assert\NotBlank(message="Le nom de l'utilisateur est obligatoire")
+     * @Assert\Length(
+     *      min=3,
+     *      minMessage="Le nom doit faire entre 3 et 255 caractères",
+     *      max=255,
+     *      maxMessage="Le nom doit faire entre 3 et 255 caractères"
+     * )
      */
     private $lastname;
 
