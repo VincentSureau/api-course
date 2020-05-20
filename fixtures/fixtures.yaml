@@ -1,0 +1,25 @@
+parameters:
+    statusArray: ['PAID', 'CANCELLED', 'SENT']
+
+App\Entity\User:
+  user_{1..10}:
+    firstname: <firstname()>
+    lastname: <lastname()>
+    email: <email()>
+    password: "password"
+
+App\Entity\Customer:
+  customer_{1..30}:
+    firstname: <firstname()>
+    lastname: <lastname()>
+    email: <email()>
+    company: 80%? <company()>
+    user: '@user_*'
+
+App\Entity\Invoice:
+  invoice_{1..100}:
+    customer: '@customer_*'
+    sentAt: <dateTimeBetween("-200 days", "now")>
+    status: <randomElement($statusArray)>
+    amount: <randomFloat(2, 50, 2000)>
+    chrono: <current()>
