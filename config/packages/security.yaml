@@ -44,4 +44,4 @@ security:
     access_control:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: [POST] }
-        - { path: ^/api/(customers|users|invoices), roles: ROLE_NONE }
+        - { path: ^/api/(customers|users|invoices), roles: IS_AUTHENTICATED_FULLY }
