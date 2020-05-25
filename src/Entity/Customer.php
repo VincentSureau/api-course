@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  * @ApiResource(
  *      collectionOperations={"get","post"},
- *      itemOperations={"get"},
+ *      itemOperations={"get", "delete"},
  *      normalizationContext={
  *          "groups"={"customer:read"}
  *      }
@@ -102,7 +102,7 @@ class Customer
     {
         return array_reduce($this->invoices->toArray(), function($total, $invoice) {
             return $total + $invoice->getAmount();
-        });
+        }, 0);
     }
 
     /**
