@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Pagination from "../components/Pagination";
 import customersAPI from '../services/customersAPI';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const CustomersPage = (props) => {
 
@@ -15,6 +16,7 @@ const CustomersPage = (props) => {
             setCustomers(data);
         } catch (error) {
             console.log(error.response);
+            toast.error("Erreur lors du chargement des clients !");
         }
     }
 
@@ -33,9 +35,11 @@ const CustomersPage = (props) => {
 
         try {
             await customersAPI.delete(id)
+            toast("Le client a bien été supprimé");
         } catch (error) {
             setCustomers(originalCustomers);
             console.log(error.response);
+            toast.error("Une erreur est survenue");
         }
 
         // customersAPI

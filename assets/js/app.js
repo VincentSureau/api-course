@@ -1,7 +1,9 @@
+import '../css/app.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, Route, Switch, withRouter } from 'react-router-dom';
-import '../css/app.css';
+import { ToastContainer, toast } from 'react-toastify';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import AuthContext from './contexts/AuthContext';
@@ -25,6 +27,7 @@ const App = () => {
             isAuthenticated,
             setIsAuthenticated
         }}>
+            <ToastContainer position={toast.POSITION.TOP_CENTER} />
             <HashRouter>
                 <NavbarWithRouter />
                 <main className="container mt-5">

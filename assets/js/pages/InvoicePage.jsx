@@ -4,6 +4,7 @@ import Select from '../components/forms/Select';
 import { Link } from 'react-router-dom';
 import customersAPI from '../services/customersAPI';
 import invoiceAPI from '../services/invoiceAPI';
+import { toast } from 'react-toastify';
 
 const InvoicePage = ({match, history}) => {
 
@@ -24,6 +25,7 @@ const InvoicePage = ({match, history}) => {
             setInvoice({ amount, customer: customer["@id"], status });
         } catch (error) {
             console.log(error.response);
+            toast.error("Impossible ce charger la facture");
             history.replace("/invoices");
         }
     };
@@ -51,8 +53,10 @@ const InvoicePage = ({match, history}) => {
         try {
             if (editing) {
                 const response = await invoiceAPI.update(id, invoice);
+                toast("La facture a bien été modifiée");
             } else {
                 const response = await invoiceAPI.create(invoice);
+                toast("La facture a bien été enregistrée");
             }
             setErrors({});
             history.replace("/invoices");
@@ -64,6 +68,7 @@ const InvoicePage = ({match, history}) => {
                     apiErrors[propertyPath] = message;
                 })
                 setErrors(apiErrors);
+                toast.error("Une erreur est survenue");
             }
         }
     }
@@ -78,6 +83,7 @@ const InvoicePage = ({match, history}) => {
             }
         } catch (error) {
             console.log(error.response);
+            toast.error("Impossible de charger les clients");
         }
     }
 
