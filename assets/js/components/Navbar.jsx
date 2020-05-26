@@ -25,9 +25,9 @@ const Navbar = ({history}) => {
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/customers">Clients</NavLink>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <NavLink className="nav-link" to="/customersPagination">Clients Bis</NavLink>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/invoices">Factures</NavLink>
                     </li>

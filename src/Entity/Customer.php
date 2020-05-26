@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  * @ApiResource(
  *      collectionOperations={"get","post"},
- *      itemOperations={"get", "delete"},
+ *      itemOperations={"get", "delete", "put"},
  *      normalizationContext={
  *          "groups"={"customer:read"}
  *      }

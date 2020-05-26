@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import AuthAPI from "../services/authAPI";
 import AuthContext from '../contexts/AuthContext';
+import Field from '../components/forms/Field';
 
 const LoginPage = ({history}) => {
 
@@ -41,36 +42,24 @@ const LoginPage = ({history}) => {
     return ( <>
         <h1>Connexion à l'application</h1>
         <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label htmlFor="username">Adresse email</label>
-                <input 
-                    className={`form-control ${error ? 'is-invalid' : ''}`}
-                    type="email"
-                    id="email"
-                    name="username"
-                    placeholder="vincent@exemple.net"
-                    value={credentials.username}
-                    onChange={handleChange}
-                />
-                {
-                    error &&
-                    <p className="invalid-feedback">
-                        {error}
-                    </p>
-                }
-            </div>
-            <div className="form-group">
-                <label htmlFor="password">Mot de passe</label>
-                <input 
-                    type="password" 
-                    className="form-control"
-                    name="password"
-                    id="password"
-                    placeholder="mot de passe"
-                    value={credentials.password}
-                    onChange={handleChange}
-                />
-            </div>
+            <Field 
+                label="Email"
+                type="email"
+                name="username"
+                placeholder="vincent@exemple.net"
+                value={credentials.username}
+                onChange={handleChange}
+                error={error}
+            />
+            <Field
+                label="Mot de passe"
+                type="password" 
+                name="password"
+                placeholder="mot de passe"
+                value={credentials.password}
+                onChange={handleChange}
+                error=""
+            />
             <div className="form-group">
                 <button className="btn btn-success">Connexion</button>
             </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Pagination from "../components/Pagination";
 import customersAPI from '../services/customersAPI';
+import { Link } from 'react-router-dom';
 
 const CustomersPage = (props) => {
 
@@ -75,13 +76,18 @@ const CustomersPage = (props) => {
 
     return ( 
         <>
-            <h1>Liste des clients</h1>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+                <h1>Liste des clients</h1>
+                <Link to="/customers/new" className="btn btn-primary">
+                    Créer un client
+                </Link>
+            </div>
             <div className="form-group">
                 <input 
                     type="text"
                     onChange={handleSearch}
                     value={search}
-                    className="form-controle"
+                    className="form-control"
                     placeholder="Rechercher..."
                 />
             </div>
@@ -109,6 +115,12 @@ const CustomersPage = (props) => {
                         </td>
                         <td className="text-right">{customer.totalAmount.toLocaleString()} €</td>
                         <td>
+                            <Link
+                                to={"/customers/" + customer.id}
+                                className="btn btn-sm btn-primary mr-1"
+                            >
+                                Editer
+                            </Link>
                             <button 
                                 className="btn btn-sm btn-danger"
                                 disabled={customer.invoices.length > 0}

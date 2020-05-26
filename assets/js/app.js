@@ -5,11 +5,14 @@ import '../css/app.css';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
 import AuthContext from './contexts/AuthContext';
+import CustomerPage from './pages/CustomerPage';
 import CustomersPage from './pages/CustomersPage';
 import CustomersPageWithPagination from './pages/CustomersPageWithPagination';
 import HomePage from './pages/HomePage';
-import InvoicesPage from './pages/InvoicesPages';
+import InvoicePage from './pages/InvoicePage';
+import InvoicesPage from './pages/InvoicesPage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import AuthAPI from './services/authAPI';
 
 const App = () => {
@@ -27,9 +30,12 @@ const App = () => {
                 <main className="container mt-5">
                     <Switch>
                         <PrivateRoute path="/customersPagination" component={CustomersPageWithPagination} />
+                        <PrivateRoute path="/customers/:id" component={CustomerPage} />
                         <PrivateRoute path="/customers" component={CustomersPage} />
+                        <PrivateRoute path="/invoices/:id" component={InvoicePage} />
                         <PrivateRoute path="/invoices" component={InvoicesPage} />
                         <Route path="/login" component={LoginPage} />
+                        <Route path="/register" component={RegisterPage} />
                         <Route path="/" component={HomePage} />
                     </Switch>
                 </main>

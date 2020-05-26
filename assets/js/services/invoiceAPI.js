@@ -17,15 +17,13 @@ function find(id) {
 
 function update(id, invoice) {
     return axios.put(INVOICES_API + "/" + id, {
-        ...invoice,
-        customer: `/api/customers/${invoice.customer}`
+        ...invoice
     });
 }
 
 function create(invoice) {
     return axios.post(INVOICES_API, {
-        ...invoice,
-        customer: `/api/customers/${invoice.customer}`
+        ...invoice
     });
 }
 

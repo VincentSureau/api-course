@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "get",
  *          "post"
  *      },
- *      itemOperations={"get"},
+ *      itemOperations={"get", "put", "delete"},
  *      attributes={
  *          "pagination_enabled"=false,
  *          "pagination_items_per_page"=10,
