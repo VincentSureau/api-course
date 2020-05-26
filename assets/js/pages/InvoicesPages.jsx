@@ -89,7 +89,7 @@ const InvoicesPage = props => {
                 <h1>Liste des factures</h1>
                 <Link className="btn btn-primary" to="/invoices/new">
                     Créer une facture
-        </Link>
+                </Link>
             </div>
 
             <div className="form-group">
