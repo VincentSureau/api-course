@@ -4,6 +4,7 @@ import Pagination from "../components/Pagination";
 import InvoicesAPI from "../services/invoiceAPI";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import TableLoader from "../components/loaders/TableLoader";
 
 const STATUS_CLASSES = {
     PAID: "success",
@@ -152,7 +153,9 @@ const InvoicesPage = props => {
                         ))}
                     </tbody>
                 )}
+
             </table>
+            {loading && <TableLoader/>}
 
             <Pagination
                 currentPage={currentPage}
