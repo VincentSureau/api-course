@@ -1,10 +1,23 @@
 import axios from "axios";
+import Cache from "./cache";
 
+async function findAll() {
 
-function findAll() {
+    const cachedCustomers = await Cache.get("customers");
+    
+    if (cachedCustomers) {
+        return cachedCustomers;
+    }
+
+    console.log("not in cache")
+
     return axios
         .get("http://localhost:8000/api/customers")
-        .then(response => response.data["hydra:member"])
+        .then(response => {
+            const customers = response.data["hydra:member"]
+            Cache.set("customers", customers);
+            return customers;
+        })
     ;
 }
 
@@ -26,6 +39,14 @@ function update(id, customer) {
 function deleteCustomer(id) {
     return axios
         .delete("http://localhost:8000/api/customers/" + id)
+        .then(async response => {
+            const cachedCustomers = await Cache.get("customers");
+            if(cachedCustomers) {
+                Cache.set("customers", cachedCustomers.filter(c => c.id !== id));
+            }
+
+            return response;
+        })
     ;
 }
 
