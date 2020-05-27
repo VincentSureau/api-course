@@ -16,7 +16,12 @@ function get(key) {
     })
 }
 
+function invalidate(key) {
+    delete cache[key];
+}
+
 export default {
     set,
-    get
+    get,
+    invalidate
 }

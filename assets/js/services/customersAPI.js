@@ -9,8 +9,6 @@ async function findAll() {
         return cachedCustomers;
     }
 
-    console.log("not in cache")
-
     return axios
         .get("http://localhost:8000/api/customers")
         .then(response => {
@@ -21,19 +19,54 @@ async function findAll() {
     ;
 }
 
-function find(id) {
+async function find(id) {
+    const cachedCustomers = await Cache.get("customers");
+
+    if (cachedCustomers) {
+        const index = cachedCustomers.findIndex(c => c.id == id);
+        if (index) {
+            return cachedCustomers[index];
+        }
+    }
+
     return axios
         .get("http://localhost:8000/api/customers/" + id)
-        .then(response => response.data)
+        .then(response => {
+            Cache.set("customer."+id, response.data)
+            return response.data
+        })
     ;
 }
 
 function create(customer) {
-    return axios.post("http://localhost:8000/api/customers", customer);
+    return axios
+        .post("http://localhost:8000/api/customers", customer)
+        .then(async response => {
+            const cachedCustomers = await Cache.get("customers");
+            if (cachedCustomers) {
+                Cache.set("customers", [...cachedCustomers, response.data]);
+            }
+
+            return response;
+        })
+    ;
 }
 
 function update(id, customer) {
-    return axios.put("http://localhost:8000/api/customers/" + id, customer);
+    return axios
+        .put("http://localhost:8000/api/customers/" + id, customer)
+        .then(async response => {
+            const cachedCustomers = await Cache.get("customers");
+
+            if(cachedCustomers) {
+                const index = cachedCustomers.findIndex(c => c.id == id);
+                cachedCustomers[index] = response.data;
+                Cache.set("customers", cachedCustomers);
+            }
+
+            return response;
+        })
+    ;
 }
 
 function deleteCustomer(id) {
